@@ -11,26 +11,37 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background: #0f172a; /* Slate-900 */
+            color: #e2e8f0; /* Slate-200 */
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #6366f1, #3b82f6, #0ea5e9);
+            -webkit-background-clip: text;
+            color: transparent;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 flex items-center justify-center min-h-screen p-4">
-    <div class="text-center p-8 sm:p-12 bg-gray-800 rounded-3xl shadow-2xl border-2 border-gray-700 max-w-lg w-full">
-        <h1 class="text-4xl sm:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-blue-500 mb-4 animate-pulse">
-            Hello World!
+<body class="flex items-center justify-center min-h-screen p-4">
+    <div class="text-center p-8 sm:p-12 bg-slate-800 rounded-3xl shadow-2xl border-2 border-slate-700 max-w-lg w-full transform transition-transform duration-500 ease-in-out hover:scale-105">
+        <h1 class="text-5xl sm:text-6xl font-bold mb-4 animate-fadeIn">
+            <span class="text-gradient">Hello World!</span>
         </h1>
-        <p class="text-lg sm:text-xl text-gray-400 mb-6">
-            Welcome to your simple yet modern and stylish webpage.
+        <p class="text-lg sm:text-xl text-slate-400 mb-8 animate-slideUp">
+            This is a vibrant and modern take on your welcome page.
         </p>
-        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-            <!-- This button links directly to the new game page -->
-            <a href="game.html" class="px-8 py-4 bg-blue-600 text-white rounded-full font-bold shadow-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105">
+        <div class="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+            <!-- The 'Play the Game' button links to the game.html file -->
+            <a href="game.html" class="px-8 py-4 bg-blue-500 text-white rounded-full font-bold shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-110 motion-safe:animate-pulse">
                 Play the Game
             </a>
-            <a href="#" class="px-8 py-4 text-gray-300 font-bold border-2 border-gray-600 rounded-full hover:bg-gray-700 transition duration-300 transform hover:scale-105">
+            <a href="#" class="px-8 py-4 text-slate-300 font-bold border-2 border-slate-600 rounded-full hover:bg-slate-700 transition duration-300 transform hover:scale-105">
                 Learn More
             </a>
         </div>
     </div>
+    <script>
+        // Animations using Tailwind's 'animate' classes
+        // You can add more complex JS animations here if needed.
+    </script>
 </body>
 </html>
