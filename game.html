@@ -1,289 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Keyboard Click Race</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        body {
-            font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            color: #d1d5db;
-            padding: 20px;
-            overflow: hidden;
-        }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keyboard Click Race</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #d1d5db;
+            padding: 20px;
+            overflow: hidden;
+        }
 
-        .game-container {
-            background-color: #111827;
-            border: 5px solid #4b5563;
-            border-radius: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            padding: 3rem;
-            text-align: center;
-            max-width: 600px;
-            width: 100%;
-        }
+        .game-container {
+            background-color: #111827;
+            border: 5px solid #4b5563;
+            border-radius: 2rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            padding: 3rem;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+        }
 
-        .title {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #f9fafb;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        }
+        .title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #f9fafb;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
 
-        .score-display {
-            display: flex;
-            justify-content: space-around;
-            margin: 2rem 0;
-            gap: 1rem;
-        }
+        .score-display {
+            display: flex;
+            justify-content: space-around;
+            margin: 2rem 0;
+            gap: 1rem;
+        }
 
-        .player-score {
-            background-color: #374151;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
-            flex-grow: 1;
-        }
+        .player-score {
+            background-color: #374151;
+            padding: 1rem 2rem;
+            border-radius: 1rem;
+            flex-grow: 1;
+        }
 
-        .player-score h2 {
-            font-size: 1.5rem;
-            color: #9ca3af;
-        }
+        .player-score h2 {
+            font-size: 1.5rem;
+            color: #9ca3af;
+        }
 
-        .player-score p {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-top: 0.5rem;
-            color: #f3f4f6;
-        }
+        .player-score p {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+            color: #f3f4f6;
+        }
 
-        .game-message {
-            font-size: 1.5rem;
-            font-weight: 700;
-            min-height: 2rem;
-            margin-bottom: 2rem;
-        }
+        .game-message {
+            font-size: 1.5rem;
+            font-weight: 700;
+            min-height: 2rem;
+            margin-bottom: 2rem;
+        }
 
-        .button-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
 
-        .game-button {
-            padding: 1.5rem 2rem;
-            font-size: 1.5rem;
-            font-weight: 700;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: transform 0.1s, box-shadow 0.1s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+        .game-button {
+            padding: 1.5rem 2rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
 
-        .game-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-        
-        #playerOneBtn {
-            background-color: #ef4444;
-            color: #fff;
-            box-shadow: 0 5px #b91c1c;
-        }
+        .game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+        
+        #playerOneBtn {
+            background-color: #ef4444;
+            color: #fff;
+            box-shadow: 0 5px #b91c1c;
+        }
 
-        #playerOneBtn:active {
-            background-color: #dc2626;
-            transform: translateY(3px);
-            box-shadow: 0 2px #991b1b;
-        }
+        #playerOneBtn:active {
+            background-color: #dc2626;
+            transform: translateY(3px);
+            box-shadow: 0 2px #991b1b;
+        }
 
-        #playerTwoBtn {
-            background-color: #3b82f6;
-            color: #fff;
-            box-shadow: 0 5px #1d4ed8;
-        }
+        #playerTwoBtn {
+            background-color: #3b82f6;
+            color: #fff;
+            box-shadow: 0 5px #1d4ed8;
+        }
 
-        #playerTwoBtn:active {
-            background-color: #2563eb;
-            transform: translateY(3px);
-            box-shadow: 0 2px #1e40af;
-        }
+        #playerTwoBtn:active {
+            background-color: #2563eb;
+            transform: translateY(3px);
+            box-shadow: 0 2px #1e40af;
+        }
 
-        #resetBtn {
-            background-color: #4b5563;
-            color: #d1d5db;
-            box-shadow: 0 5px #374151;
-        }
+        #resetBtn {
+            background-color: #4b5563;
+            color: #d1d5db;
+            box-shadow: 0 5px #374151;
+        }
 
-        #resetBtn:active {
-            background-color: #374151;
-            transform: translateY(3px);
-            box-shadow: 0 2px #1f2937;
-        }
+        #resetBtn:active {
+            background-color: #374151;
+            transform: translateY(3px);
+            box-shadow: 0 2px #1f2937;
+        }
 
-        /* Modal styling */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s, opacity 0.5s;
-        }
+        /* Modal styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s;
+        }
 
-        .modal.open {
-            visibility: visible;
-            opacity: 1;
-        }
+        .modal.open {
+            visibility: visible;
+            opacity: 1;
+        }
 
-        .modal-content {
-            background-color: #111827;
-            padding: 3rem;
-            border-radius: 1rem;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            max-width: 400px;
-        }
+        .modal-content {
+            background-color: #111827;
+            padding: 3rem;
+            border-radius: 1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+        }
 
-        .modal-content h3 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-        }
+        .modal-content h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
 
-        .modal-content p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
+        .modal-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
 
-        .modal-close-btn {
-            background-color: #4b5563;
-            color: #d1d5db;
-            padding: 0.75rem 1.5rem;
-            font-weight: bold;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-        
-        @media (max-width: 640px) {
-            .game-container {
-                padding: 2rem;
-            }
-            .score-display {
-                flex-direction: column;
-            }
-        }
-    </style>
+        .modal-close-btn {
+            background-color: #4b5563;
+            color: #d1d5db;
+            padding: 0.75rem 1.5rem;
+            font-weight: bold;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 640px) {
+            .game-container {
+                padding: 2rem;
+            }
+            .score-display {
+                flex-direction: column;
+            }
+        }
+    </style>
 </head>
 <body class="bg-gray-900">
 
-    <div class="game-container">
-        <h1 class="title">Click Race!</h1>
-        <p class="game-message" id="game-message">Press 'W' and 'P' to play. First to 10 wins!</p>
-        <div class="score-display">
-            <div class="player-score rounded-xl bg-red-500 shadow-lg">
-                <h2 class="text-white">Player 1</h2>
-                <p id="playerOneScore" class="text-6xl font-extrabold text-white">0</p>
-            </div>
-            <div class="player-score rounded-xl bg-blue-500 shadow-lg">
-                <h2 class="text-white">Player 2</h2>
-                <p id="playerTwoScore" class="text-6xl font-extrabold text-white">0</p>
-            </div>
-        </div>
-        <div class="button-container">
-            <button id="playerOneBtn" class="game-button">Player 1: Press 'W'</button>
-            <button id="playerTwoBtn" class="game-button">Player 2: Press 'P'</button>
-            <button id="resetBtn" class="game-button">Reset Game</button>
-        </div>
-    </div>
+    <div class="game-container">
+        <h1 class="title">Click Race!</h1>
+        <p class="game-message" id="game-message">Press 'W' and 'P' to play. First to 10 wins!</p>
+        <div class="score-display">
+            <div class="player-score rounded-xl bg-red-500 shadow-lg">
+                <h2 class="text-white">Player 1</h2>
+                <p id="playerOneScore" class="text-6xl font-extrabold text-white">0</p>
+            </div>
+            <div class="player-score rounded-xl bg-blue-500 shadow-lg">
+                <h2 class="text-white">Player 2</h2>
+                <p id="playerTwoScore" class="text-6xl font-extrabold text-white">0</p>
+            </div>
+        </div>
+        <div class="button-container">
+            <button id="playerOneBtn" class="game-button">Player 1: Press 'W'</button>
+            <button id="playerTwoBtn" class="game-button">Player 2: Press 'P'</button>
+            <button id="resetBtn" class="game-button">Reset Game</button>
+        </div>
+    </div>
 
-        <div id="gameOverModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalMessage"></h3>
-            <button id="modalCloseBtn" class="modal-close-btn">Play Again</button>
-        </div>
-    </div>
+    <!-- Modal for game over message -->
+    <div id="gameOverModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalMessage"></h3>
+            <button id="modalCloseBtn" class="modal-close-btn">Play Again</button>
+        </div>
+    </div>
 
-    <script>
-        const playerOneBtn = document.getElementById('playerOneBtn');
-        const playerTwoBtn = document.getElementById('playerTwoBtn');
-        const resetBtn = document.getElementById('resetBtn');
-        const playerOneScoreDisplay = document.getElementById('playerOneScore');
-        const playerTwoScoreDisplay = document.getElementById('playerTwoScore');
-        const gameMessage = document.getElementById('game-message');
-        const gameOverModal = document.getElementById('gameOverModal');
-        const modalMessage = document.getElementById('modalMessage');
-        const modalCloseBtn = document.getElementById('modalCloseBtn');
+    <script>
+        const playerOneBtn = document.getElementById('playerOneBtn');
+        const playerTwoBtn = document.getElementById('playerTwoBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const playerOneScoreDisplay = document.getElementById('playerOneScore');
+        const playerTwoScoreDisplay = document.getElementById('playerTwoScore');
+        const gameMessage = document.getElementById('game-message');
+        const gameOverModal = document.getElementById('gameOverModal');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
 
-        let playerOneScore = 0;
-        let playerTwoScore = 0;
-        const winningScore = 10;
-        let gameOver = false;
+        let playerOneScore = 0;
+        let playerTwoScore = 0;
+        const winningScore = 10;
+        let gameOver = false;
 
-        function updateScores() {
-            if (!gameOver) {
-                playerOneScoreDisplay.textContent = playerOneScore;
-                playerTwoScoreDisplay.textContent = playerTwoScore;
+        function updateScores() {
+            if (!gameOver) {
+                playerOneScoreDisplay.textContent = playerOneScore;
+                playerTwoScoreDisplay.textContent = playerTwoScore;
 
-                if (playerOneScore >= winningScore) {
-                    endGame('Player 1 Wins!');
-                } else if (playerTwoScore >= winningScore) {
-                    endGame('Player 2 Wins!');
-                }
-            }
-        }
+                if (playerOneScore >= winningScore) {
+                    endGame('Player 1 Wins!');
+                } else if (playerTwoScore >= winningScore) {
+                    endGame('Player 2 Wins!');
+                }
+            }
+        }
 
-        function endGame(message) {
-            gameOver = true;
-            gameMessage.textContent = message;
-            modalMessage.textContent = message;
-            gameOverModal.classList.add('open');
-            playerOneBtn.disabled = true;
-            playerTwoBtn.disabled = true;
-        }
+        function endGame(message) {
+            gameOver = true;
+            gameMessage.textContent = message;
+            modalMessage.textContent = message;
+            gameOverModal.classList.add('open');
+            playerOneBtn.disabled = true;
+            playerTwoBtn.disabled = true;
+        }
 
-        function resetGame() {
-            playerOneScore = 0;
-            playerTwoScore = 0;
-            gameOver = false;
-            updateScores();
-            gameMessage.textContent = "Press 'W' and 'P' to play. First to 10 wins!";
-            playerOneBtn.disabled = false;
-            playerTwoBtn.disabled = false;
-            gameOverModal.classList.remove('open');
-        }
+        function resetGame() {
+            playerOneScore = 0;
+            playerTwoScore = 0;
+            gameOver = false;
+            updateScores();
+            gameMessage.textContent = "Press 'W' and 'P' to play. First to 10 wins!";
+            playerOneBtn.disabled = false;
+            playerTwoBtn.disabled = false;
+            gameOverModal.classList.remove('open');
+        }
 
-        // Handle keyboard input for both players
-        document.addEventListener('keydown', (event) => {
-            if (!gameOver) {
-                if (event.key.toLowerCase() === 'w') {
-                    playerOneScore++;
-                    updateScores();
-                } else if (event.key.toLowerCase() === 'p') {
-                    playerTwoScore++;
-                    updateScores();
-                }
-            }
-        });
+        // Handle keyboard input for both players
+        document.addEventListener('keydown', (event) => {
+            if (!gameOver) {
+                if (event.key.toLowerCase() === 'w') {
+                    playerOneScore++;
+                    updateScores();
+                } else if (event.key.toLowerCase() === 'p') {
+                    playerTwoScore++;
+                    updateScores();
+                }
+            }
+        });
 
-        // The reset button still uses a click event
-        resetBtn.addEventListener('click', resetGame);
-        modalCloseBtn.addEventListener('click', resetGame);
-    </script>
+        // The reset button still uses a click event
+        resetBtn.addEventListener('click', resetGame);
+        modalCloseBtn.addEventListener('click', resetGame);
+    </script>
 </body>
 </html>
