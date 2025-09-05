@@ -11,7 +11,7 @@
     <style>
         body {
             font-family: 'Fredoka', sans-serif;
-            background: linear-gradient(135deg, #1f2937 0%, #000000 100%);
+            background: linear-gradient(135deg, #1e3a8a 0%, #172554 100%);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,38 +19,58 @@
             color: #d1d5db;
             padding: 20px;
             overflow: hidden;
+            background-attachment: fixed;
         }
 
         .game-container {
-            background-color: #111827;
+            background-color: #1f2937;
             border: 5px solid #4b5563;
             border-radius: 2rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7);
             padding: 3rem;
             text-align: center;
             max-width: 600px;
             width: 100%;
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        .game-container:hover {
+            transform: scale(1.02);
         }
 
         .title {
             font-size: 2.5rem;
             font-weight: 700;
             color: #f9fafb;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
         }
 
         .score-display {
             display: flex;
             justify-content: space-around;
             margin: 2rem 0;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .player-score {
             background-color: #374151;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            border-radius: 1.5rem;
             flex-grow: 1;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.3);
+            border: 2px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .player-score.active {
+            border-color: #4ade80;
+            animation: pulse-border 1s infinite alternate;
+        }
+
+        @keyframes pulse-border {
+            from { border-color: #4ade80; }
+            to { border-color: #16a34a; }
         }
 
         .player-score h2 {
@@ -59,10 +79,11 @@
         }
 
         .player-score p {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 700;
             margin-top: 0.5rem;
             color: #f3f4f6;
+            transition: color 0.3s ease;
         }
 
         .game-message {
@@ -87,11 +108,6 @@
             cursor: pointer;
             transition: transform 0.1s, box-shadow 0.1s;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .game-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
         }
         
         #playerOneBtn {
@@ -118,13 +134,13 @@
             box-shadow: 0 2px #1e40af;
         }
 
-        #resetBtn {
+        #resetBtn, #homeBtn {
             background-color: #4b5563;
             color: #d1d5db;
             box-shadow: 0 5px #374151;
         }
 
-        #resetBtn:active {
+        #resetBtn:active, #homeBtn:active {
             background-color: #374151;
             transform: translateY(3px);
             box-shadow: 0 2px #1f2937;
@@ -137,13 +153,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
             display: flex;
             justify-content: center;
             align-items: center;
             visibility: hidden;
             opacity: 0;
             transition: visibility 0s, opacity 0.5s;
+            z-index: 100;
         }
 
         .modal.open {
@@ -152,23 +169,33 @@
         }
 
         .modal-content {
-            background-color: #111827;
+            background-color: #1f2937;
             padding: 3rem;
-            border-radius: 1rem;
+            border-radius: 1.5rem;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
             max-width: 400px;
+            transform: scale(0.8);
+            transition: transform 0.5s ease-out;
+        }
+
+        .modal.open .modal-content {
+            transform: scale(1);
         }
 
         .modal-content h3 {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
+            background: linear-gradient(to right, #facc15, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .modal-content p {
-            font-size: 1.2rem;
+            font-size: 1.5rem;
             margin-bottom: 2rem;
+            color: #9ca3af;
         }
 
         .modal-close-btn {
@@ -178,6 +205,11 @@
             font-weight: bold;
             border-radius: 0.5rem;
             cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #6b7280;
         }
         
         @media (max-width: 640px) {
@@ -196,11 +228,11 @@
         <h1 class="title">Click Race!</h1>
         <p class="game-message" id="game-message">Press 'W' and 'P' to play. First to 10 wins!</p>
         <div class="score-display">
-            <div class="player-score rounded-xl bg-red-500 shadow-lg">
+            <div id="playerOneCard" class="player-score rounded-xl bg-red-500 shadow-lg">
                 <h2 class="text-white">Player 1</h2>
                 <p id="playerOneScore" class="text-6xl font-extrabold text-white">0</p>
             </div>
-            <div class="player-score rounded-xl bg-blue-500 shadow-lg">
+            <div id="playerTwoCard" class="player-score rounded-xl bg-blue-500 shadow-lg">
                 <h2 class="text-white">Player 2</h2>
                 <p id="playerTwoScore" class="text-6xl font-extrabold text-white">0</p>
             </div>
@@ -209,6 +241,7 @@
             <button id="playerOneBtn" class="game-button">Player 1: Press 'W'</button>
             <button id="playerTwoBtn" class="game-button">Player 2: Press 'P'</button>
             <button id="resetBtn" class="game-button">Reset Game</button>
+            <a href="index.html" id="homeBtn" class="game-button text-center">Back to Home</a>
         </div>
     </div>
 
@@ -216,6 +249,7 @@
     <div id="gameOverModal" class="modal">
         <div class="modal-content">
             <h3 id="modalMessage"></h3>
+            <p>Ready to play again?</p>
             <button id="modalCloseBtn" class="modal-close-btn">Play Again</button>
         </div>
     </div>
@@ -226,10 +260,13 @@
         const resetBtn = document.getElementById('resetBtn');
         const playerOneScoreDisplay = document.getElementById('playerOneScore');
         const playerTwoScoreDisplay = document.getElementById('playerTwoScore');
+        const playerOneCard = document.getElementById('playerOneCard');
+        const playerTwoCard = document.getElementById('playerTwoCard');
         const gameMessage = document.getElementById('game-message');
         const gameOverModal = document.getElementById('gameOverModal');
         const modalMessage = document.getElementById('modalMessage');
         const modalCloseBtn = document.getElementById('modalCloseBtn');
+        const homeBtn = document.getElementById('homeBtn');
 
         let playerOneScore = 0;
         let playerTwoScore = 0;
@@ -251,7 +288,6 @@
 
         function endGame(message) {
             gameOver = true;
-            gameMessage.textContent = message;
             modalMessage.textContent = message;
             gameOverModal.classList.add('open');
             playerOneBtn.disabled = true;
@@ -267,6 +303,8 @@
             playerOneBtn.disabled = false;
             playerTwoBtn.disabled = false;
             gameOverModal.classList.remove('open');
+            playerOneCard.classList.remove('active');
+            playerTwoCard.classList.remove('active');
         }
 
         // Handle keyboard input for both players
@@ -275,10 +313,20 @@
                 if (event.key.toLowerCase() === 'w') {
                     playerOneScore++;
                     updateScores();
+                    playerOneCard.classList.add('active');
                 } else if (event.key.toLowerCase() === 'p') {
                     playerTwoScore++;
                     updateScores();
+                    playerTwoCard.classList.add('active');
                 }
+            }
+        });
+
+        document.addEventListener('keyup', (event) => {
+            if (event.key.toLowerCase() === 'w') {
+                playerOneCard.classList.remove('active');
+            } else if (event.key.toLowerCase() === 'p') {
+                playerTwoCard.classList.remove('active');
             }
         });
 
